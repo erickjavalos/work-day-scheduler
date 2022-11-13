@@ -114,6 +114,7 @@ function updateSavedData()
 
 function main()
 {
+  updateSavedData();
   // set global interval so that colors can change with change of time
   setInterval(function() {
       // update time respectively
@@ -121,7 +122,6 @@ function main()
     // update colors respectively
     updateColors();
     // update localStorage elements saved
-    updateSavedData();
   },100)
 }
 // *******************************************************************************
