@@ -1,32 +1,17 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-// $(function () {
-//   // TODO: Add a listener for click events on the save button. This code should
-//   // use the id in the containing time-block as a key to save the user input in
-//   // local storage. HINT: What does `this` reference in the click listener
-//   // function? How can DOM traversal be used to get the "hour-x" id of the
-//   // time-block containing the button that was clicked? How might the id be
-//   // useful when saving the description in local storage?
-//   //
-//   // TODO: Add code to apply the past, present, or future class to each time
-//   // block by comparing the id to the current hour. HINTS: How can the id
-//   // attribute of each time-block be used to conditionally add or remove the
-//   // past, present, and future classes? How can Day.js be used to get the
-//   // current hour in 24-hour time?
-//   //
-//   // TODO: Add code to get any user input that was saved in localStorage and set
-//   // the values of the corresponding textarea elements. HINT: How can the id
-//   // attribute of each time-block be used to do this?
-//   //
-//   // TODO: Add code to display the current date in the header of the page.
-// });
+// Developer: Erick Avalos
+//
+// Description: A simple web application that allows you to manage your work day through a calendar
+//
 
-// initiate day object
+// jquery selector for all buttons
+var buttonVar = $('button')
 
 // define weeday dictionary 
-const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; // used as index 
+const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; 
 
+// Test Variables 
+var DEBUG = true
+var hrTest = 19;
 
 // *********************************************************
 // Function: updateTime()
@@ -37,10 +22,10 @@ const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Sa
 
 function updateTime()
 {
-
+  // grab information of day
   var today = dayjs();
   // create current day of the week string
-  var currentDayStr = weekday[today.day()] + ", " + today.format('MMM D, YYYY hh:mm:ss a');
+  var currentDayStr = weekday[today.day()] + ", " + today.format('MMM D, YYYY');
   // update current day with string object 
   $('#currentDay').text(currentDayStr);
 
@@ -55,8 +40,14 @@ function updateTime()
 
 function updateColors()
 {
+
   // grab hr from dayjs
   var currHr = parseInt(dayjs().hour());
+  // debug for testing at night
+  if (DEBUG)
+  {
+    currHr = hrTest
+  }
   // iterate through normal 9 to 5 
   for (var i = 9; i < 18; i++)
   {
@@ -80,6 +71,33 @@ function updateColors()
 }
 
 // *********************************************************
+// Function: updateSavedData()
+// 
+// Description: Updates schedule with saved data in local 
+// memory
+//
+// *********************************************************
+
+function updateSavedData()
+{
+
+  for (var i = 9; i < 18; i++)
+  {
+    // dyamically update hour
+    var id = 'hour-' + String(i)
+    // grab text object saved in local storage
+    var text = JSON.parse(localStorage.getItem(id))
+    // check if id saved is in local storage
+    if (text !== null)
+    {
+      // append data into textarea
+      console.log($('#' + id).children('textarea')[0])
+      $('#' + id).children('textarea')[0].innerText = text.textEvent
+    }
+  }
+}
+
+// *********************************************************
 // Function: main()
 // 
 // Description: Handles how work schedule updates
@@ -89,12 +107,34 @@ function updateColors()
 function main()
 {
   // update time respectively
-  updateTime()
+  updateTime();
   // update colors respectively
-  updateColors()
+  updateColors();
+  // update localStorage elements saved
+  updateSavedData();
 }
 
 // main funciton
 main()
 
+// *********************************************************
+// Event Handlers
+// *********************************************************
+
+function processButton(event) 
+{
+    // extract id of parent
+    var id = $(this).parent()[0].id    
+    // save data to local storage
+    var textEvent = $(this).parent().children().eq(1).val();
+    // create data object
+    var data = 
+    {
+      'textEvent': textEvent,
+    }
+    // append data to localStorage
+    localStorage.setItem(id, JSON.stringify(data))
+}
+
+buttonVar.on('click', processButton)
 
