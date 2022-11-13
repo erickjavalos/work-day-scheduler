@@ -1,7 +1,11 @@
+// *******************************************************************************
+//
 // Developer: Erick Avalos
 //
 // Description: A simple web application that allows you to manage your work day through a calendar
 //
+// *******************************************************************************
+
 
 // jquery selector for all buttons
 var buttonVar = $('button')
@@ -10,10 +14,11 @@ var buttonVar = $('button')
 const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; 
 
 // Test Variables 
-var DEBUG = true
-var hrTest = 19;
+var DEBUG = false
+var hrTest = 10;
 
-// *********************************************************
+// *******************************************************************************
+//
 // Function: updateTime()
 // 
 // Description: Updates the time when screen is refreshed
@@ -31,12 +36,13 @@ function updateTime()
 
 }
 
-// *********************************************************
+// *******************************************************************************
+//
 // Function: updateColors()
 // 
 // Description: Updates colors based on current time
 //
-// *********************************************************
+// *******************************************************************************
 
 function updateColors()
 {
@@ -70,13 +76,14 @@ function updateColors()
   }
 }
 
-// *********************************************************
+// *******************************************************************************
+//
 // Function: updateSavedData()
 // 
 // Description: Updates schedule with saved data in local 
 // memory
 //
-// *********************************************************
+// *******************************************************************************
 
 function updateSavedData()
 {
@@ -97,29 +104,39 @@ function updateSavedData()
   }
 }
 
-// *********************************************************
+// *******************************************************************************
+//
 // Function: main()
 // 
 // Description: Handles how work schedule updates
 //
-// *********************************************************
+// *******************************************************************************
 
 function main()
 {
-  // update time respectively
-  updateTime();
-  // update colors respectively
-  updateColors();
-  // update localStorage elements saved
-  updateSavedData();
+  // set global interval so that colors can change with change of time
+  setInterval(function() {
+      // update time respectively
+    updateTime();
+    // update colors respectively
+    updateColors();
+    // update localStorage elements saved
+    updateSavedData();
+  },100)
 }
+// *******************************************************************************
+//
+// main function
+//
+// *******************************************************************************
 
-// main funciton
 main()
 
-// *********************************************************
+// *******************************************************************************
+//
 // Event Handlers
-// *********************************************************
+//
+// *******************************************************************************
 
 function processButton(event) 
 {
