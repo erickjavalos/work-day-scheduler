@@ -10,4 +10,4 @@
 <img src="https://github.com/eavalo14/work-day-scheduler/blob/main/assets/images/webpage.png" alt="Webpage">
 
 ## Deployed link
-<p>https://eavalo14.github.io/work-day-scheduler/</p>
+<p>https://erickjavalos.github.io/work-day-scheduler/</p>
